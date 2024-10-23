@@ -3,10 +3,10 @@ services:
   api:
     build: .
     ports:
-      - "3000:3000"
+      - "${API_PORT}:3000"
     depends_on:
       - db
   db:
     image: oscarfonts/h2:latest
     ports:
-      - "8082:8082"
+      - "${DB_PORT}:8082"
