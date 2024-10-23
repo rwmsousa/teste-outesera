@@ -11,6 +11,8 @@ const getMinMaxIntervalProducers = async (): Promise<ProducerInterval[]> => {
   try {
     const producers = await getProducers();
     // logic to calculate the intervals and return the producers with the highest and lowest interval between awards.
+    const result: ProducerInterval[] = [];
+    return result;
   } catch (error) {
     console.error(error);
     throw error;
