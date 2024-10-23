@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "prepare": "husky install",
+    "lint": "npx eslint --fix src/**/*.ts",
+    "format": "prettier --write ."
   },
   "keywords": [
     "API",
@@ -22,9 +25,26 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.9",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "express": "^4.21.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.10",
     "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
