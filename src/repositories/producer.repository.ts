@@ -24,20 +24,34 @@ export const populateDatabase = async (movies: MovieType[]) => {
 };
 
 export const getProducers = async (): Promise<ProducerInterval[]> => {
-  return [
-    {
-      producer: 'Producer 1',
-      interval: 5,
-      previousWin: 2000,
-      followingWin: 2005,
-      years: [2000, 2005],
-    },
-    {
-      producer: 'Producer 2',
-      interval: 3,
-      previousWin: 2010,
-      followingWin: 2013,
-      years: [2010, 2013],
-    },
-  ];
+  const movieRepository = AppDataSource.getRepository(Movie);
+
+  const movies = await movieRepository.find({ where: { winner: true } });
+
+  const producerMap: { [key: string]: number[] } = {};
+
+  movies.forEach((movie) => {
+    const producers = movie.producers.split(',').map((p) => p.trim());
+    producers.forEach((producer) => {
+      if (!producerMap[producer]) {
+        producerMap[producer] = [];
+      }
+      producerMap[producer].push(movie.year);
+    });
+  });
+
+  const producerIntervals: ProducerInterval[] = [];
+
+  for (const producer in producerMap) {
+    const years = producerMap[producer].sort((a, b) => a - b);
+    producerIntervals.push({
+      producer,
+      interval: 0,
+      previousWin: 0,
+      followingWin: 0,
+      years,
+    });
+  }
+
+  return producerIntervals;
 };
