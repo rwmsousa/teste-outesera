@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getMinMaxIntervalProducers } from '../services/producer.service';
 import { getProducersWithMinMaxInterval } from '../controllers/producer.controller';
 
-jest.mock('../services/producer.service'); // Mock do serviço
+jest.mock('../services/producer.service');
 
 describe('Testes de Integração de API', () => {
   it('Deve retornar uma lista de entidades', async () => {
@@ -10,7 +10,7 @@ describe('Testes de Integração de API', () => {
       { id: 1, name: 'Producer 1' },
       { id: 2, name: 'Producer 2' },
     ];
-    (getMinMaxIntervalProducers as jest.Mock).mockResolvedValue(mockProducers); // Mock da resposta do serviço
+    (getMinMaxIntervalProducers as jest.Mock).mockResolvedValue(mockProducers);
 
     const req = {} as Request;
     const res = {
@@ -27,7 +27,7 @@ describe('Testes de Integração de API', () => {
   it('Deve retornar um erro 500 se o serviço falhar', async () => {
     (getMinMaxIntervalProducers as jest.Mock).mockRejectedValue(
       new Error('Service Error'),
-    ); // Mock do erro no serviço
+    );
 
     const req = {} as Request;
     const res = {
