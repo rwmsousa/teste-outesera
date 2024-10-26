@@ -1,5 +1,5 @@
 export interface Movie {
-  id?: number; // Torne a propriedade opcional
+  id?: number;
   year: number;
   title: string;
   studios: string;

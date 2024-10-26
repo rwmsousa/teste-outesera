@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()
-  id!: number; // Use o operador de asserção não nula
+  id!: number;
 
   @Column()
   year!: number;
