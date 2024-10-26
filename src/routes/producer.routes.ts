@@ -3,6 +3,6 @@ import { getProducersWithMinMaxInterval } from '../controllers/producer.controll
 
 const router = Router();
 
-router.get('/producers', getProducersWithMinMaxInterval);
+router.get('/', getProducersWithMinMaxInterval);
 
 export default router;
