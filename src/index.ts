@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { AppDataSource } from './data-source';
 import { getProducersWithMinMaxInterval } from './controllers/producer.controller';
 import readCsvData from './utils/readCsvData';
@@ -18,12 +18,14 @@ AppDataSource.initialize()
     const movies = await readCsvData(csvFilePath);
     await populateDatabase(movies);
 
-    app.get('/producers', getProducersWithMinMaxInterval);
+    app.get('/producers', (req: Request, res: Response) =>
+      getProducersWithMinMaxInterval(req, res),
+    );
 
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
   })
-  .catch((error) => console.log(error));
+  .catch((error: any) => console.log(error));
 
 export { app };

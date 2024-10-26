@@ -6,8 +6,8 @@ export const getProducersWithMinMaxInterval = async (
   res: Response,
 ) => {
   try {
-    const result = await getMinMaxIntervalProducers();
-    res.json(result);
+    const producers = await getMinMaxIntervalProducers();
+    res.status(200).json(producers);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

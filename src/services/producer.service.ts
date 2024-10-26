@@ -8,7 +8,7 @@ interface ProducerIntervalResult {
   followingWin: number;
 }
 
-const getMinMaxIntervalProducers = async (): Promise<{
+export const getMinMaxIntervalProducers = async (): Promise<{
   min: ProducerIntervalResult[];
   max: ProducerIntervalResult[];
 }> => {
@@ -47,5 +47,3 @@ const getMinMaxIntervalProducers = async (): Promise<{
     throw error;
   }
 };
-
-export { getMinMaxIntervalProducers };
