@@ -1,17 +1,14 @@
 import { Request, Response } from 'express';
-import {
-  getMinMaxIntervalProducers,
-  ProducerInterval,
-} from '../services/producer.service';
+import { getMinMaxIntervalProducers } from '../services/producer.service';
 
-const getProducersWithMinMaxInterval = async (req: Request, res: Response) => {
+export const getProducersWithMinMaxInterval = async (
+  req: Request,
+  res: Response,
+) => {
   try {
-    const producers: ProducerInterval[] = await getMinMaxIntervalProducers();
-    res.json(producers);
+    const result = await getMinMaxIntervalProducers();
+    res.json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
-export { getProducersWithMinMaxInterval };
