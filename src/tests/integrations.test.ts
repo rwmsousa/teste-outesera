@@ -4,8 +4,8 @@ import { getProducersWithMinMaxInterval } from '../controllers/producer.controll
 
 jest.mock('../services/producer.service');
 
-describe('Testes de Integração de API', () => {
-  it('Deve retornar uma lista de entidades', async () => {
+describe('API Integration Testing', () => {
+  it('Should return a list of entities', async () => {
     const mockProducers = [
       { id: 1, name: 'Producer 1' },
       { id: 2, name: 'Producer 2' },
@@ -24,7 +24,7 @@ describe('Testes de Integração de API', () => {
     expect(res.json).toHaveBeenCalledWith(mockProducers);
   });
 
-  it('Deve retornar um erro 500 se o serviço falhar', async () => {
+  it('Should return a 500 error if the service fails', async () => {
     (getMinMaxIntervalProducers as jest.Mock).mockRejectedValue(
       new Error('Service Error'),
     );

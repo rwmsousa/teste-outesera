@@ -6,11 +6,14 @@ import readCsvData from './utils/readCsvData';
 import { populateDatabase } from './repositories/producer.repository';
 import path from 'path';
 import dotenv from 'dotenv';
+import { setupSwagger } from './swagger';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+setupSwagger(app);
 
 AppDataSource.initialize()
   .then(async () => {
