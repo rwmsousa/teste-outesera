@@ -18,14 +18,12 @@ export const populateDatabase = async (movies: MovieType[]) => {
       await movieRepository.save(movieEntity);
     }
   } catch (error) {
-    console.error('Erro ao popular o banco de dados:', error);
+    console.error('Error populating the database:', error);
     throw error;
   }
 };
 
 export const getProducers = async (): Promise<ProducerInterval[]> => {
-  const movieRepository = AppDataSource.getRepository(Movie);
-
   return [
     {
       producer: 'Producer 1',
