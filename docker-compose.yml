@@ -1,12 +1,27 @@
-version: "3.9"
 services:
-  api:
-    build: .
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
-      - "${API_PORT}:3000"
-    depends_on:
-      - db
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    command: nodemon src/index.ts
+
   db:
-    image: oscarfonts/h2:latest
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: movies
     ports:
-      - "${DB_PORT}:8082"
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
