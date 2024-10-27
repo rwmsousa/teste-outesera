@@ -6,17 +6,31 @@ export class Movie {
   id!: number;
 
   @Column()
-  year!: number;
+  year: number;
 
   @Column()
-  title!: string;
+  title: string;
 
   @Column()
-  studios!: string;
+  studios: string;
 
   @Column()
-  producers!: string;
+  producers: string;
 
   @Column()
-  winner!: boolean;
+  winner: boolean;
+
+  constructor(
+    year: number,
+    title: string,
+    studios: string,
+    producers: string,
+    winner: boolean,
+  ) {
+    this.year = year;
+    this.title = title;
+    this.studios = studios;
+    this.producers = producers;
+    this.winner = winner;
+  }
 }

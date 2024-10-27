@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { AppDataSource } from './data-source';
 import { getProducersWithMinMaxInterval } from './controllers/producer.controller';
 import readCsvData from './utils/readCsvData';
@@ -7,6 +7,9 @@ import { populateDatabase } from './repositories/producer.repository';
 import path from 'path';
 import dotenv from 'dotenv';
 import { setupSwagger } from './swagger';
+import logger from './middlewares/logger';
+import errorHandler from './middlewares/errorHandler';
+import { Movie } from './entity/Movie';
 
 dotenv.config();
 
@@ -15,7 +18,7 @@ const port = process.env.PORT || 3001;
 
 setupSwagger(app);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send('Outsera Challenge: Movie Producer API');
 });
 
@@ -25,7 +28,7 @@ AppDataSource.initialize()
       __dirname,
       '../src/resources/movielist.csv',
     );
-    const movies = await readCsvData(csvFilePath);
+    const movies: Movie[] = await readCsvData(csvFilePath);
     await populateDatabase(movies);
 
     app.get('/producers', (req: Request, res: Response) =>
@@ -33,9 +36,13 @@ AppDataSource.initialize()
     );
 
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      logger.info(`Server is running on port ${port}`);
     });
   })
-  .catch((error: any) => console.log(error));
+  .catch((error: any) => logger.error(error));
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  errorHandler(err, req, res, next);
+});
 
 export { app };

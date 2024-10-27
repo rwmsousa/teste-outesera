@@ -1,33 +1,20 @@
 import { AppDataSource } from '../data-source';
 import { Movie } from '../entity/Movie';
-import { Movie as MovieType } from '../types';
 import { ProducerInterval } from '../types';
+import logger from '../middlewares/logger';
 
-export const populateDatabase = async (movies: MovieType[]) => {
+export const populateDatabase = async (movies: Movie[]): Promise<void> => {
   const movieRepository = AppDataSource.getRepository(Movie);
-
   try {
-    for (const movie of movies) {
-      const { year, title, studios, producers, winner } = movie;
-      const movieEntity = new Movie();
-      movieEntity.year = year;
-      movieEntity.title = title;
-      movieEntity.studios = studios;
-      movieEntity.producers = producers;
-      movieEntity.winner = winner;
-      await movieRepository.save(movieEntity);
-    }
+    await movieRepository.save(movies);
+    logger.info('Database populated successfully');
   } catch (error) {
-    console.error('Error populating the database:', error);
+    logger.error('Error populating the database:', error);
     throw error;
   }
 };
 
-export const getProducers = async (): Promise<ProducerInterval[]> => {
-  const movieRepository = AppDataSource.getRepository(Movie);
-
-  const movies = await movieRepository.find({ where: { winner: true } });
-
+const mapProducers = (movies: Movie[]): { [key: string]: number[] } => {
   const producerMap: { [key: string]: number[] } = {};
 
   movies.forEach((movie) => {
@@ -40,8 +27,13 @@ export const getProducers = async (): Promise<ProducerInterval[]> => {
     });
   });
 
-  const producerIntervals: ProducerInterval[] = [];
+  return producerMap;
+};
 
+const createProducerIntervals = (producerMap: {
+  [key: string]: number[];
+}): ProducerInterval[] => {
+  const producerIntervals: ProducerInterval[] = [];
   for (const producer in producerMap) {
     const years = producerMap[producer].sort((a, b) => a - b);
     producerIntervals.push({
@@ -52,6 +44,17 @@ export const getProducers = async (): Promise<ProducerInterval[]> => {
       years,
     });
   }
-
   return producerIntervals;
+};
+
+export const getProducers = async (): Promise<ProducerInterval[]> => {
+  const movieRepository = AppDataSource.getRepository(Movie);
+  try {
+    const movies = await movieRepository.find();
+    const producerMap = mapProducers(movies);
+    return createProducerIntervals(producerMap);
+  } catch (error) {
+    logger.error('Error getting producers:', error);
+    throw error;
+  }
 };
