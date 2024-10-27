@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18-alpine
 
 WORKDIR /app
 
@@ -8,8 +8,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm install -g nodemon
+RUN npm run build
 
 EXPOSE ${PORT}
 
-CMD ["nodemon", "src/index.ts"]
+CMD ["npm", "start"]

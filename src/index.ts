@@ -15,9 +15,16 @@ const port = process.env.PORT || 3001;
 
 setupSwagger(app);
 
+app.get('/', (req: Request, res: Response) => {
+  res.send('Outsera Challenge: Movie Producer API');
+});
+
 AppDataSource.initialize()
   .then(async () => {
-    const csvFilePath = path.resolve(__dirname, '../resources/movielist.csv');
+    const csvFilePath = path.resolve(
+      __dirname,
+      '../src/resources/movielist.csv',
+    );
     const movies = await readCsvData(csvFilePath);
     await populateDatabase(movies);
 
