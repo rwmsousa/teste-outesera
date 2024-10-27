@@ -1,5 +1,3 @@
-// src/docs/producer.swagger.ts
-
 /**
  * @swagger
  * /producers:
