@@ -33,9 +33,15 @@ export const getMinMaxIntervalProducers = async (): Promise<{
     const sortedProducers = producerIntervals.sort(
       (a, b) => a.interval - b.interval,
     );
-    const minIntervalProducers = sortedProducers.filter(
-      (p) => p.interval === sortedProducers[0].interval,
+    const filteredProducers = sortedProducers.filter((p) => p.interval > 0);
+
+    const minInterval =
+      filteredProducers.length > 0 ? filteredProducers[0].interval : 0;
+
+    const minIntervalProducers = filteredProducers.filter(
+      (p) => p.interval === minInterval,
     );
+
     const maxIntervalProducers = sortedProducers.filter(
       (p) =>
         p.interval === sortedProducers[sortedProducers.length - 1].interval,
