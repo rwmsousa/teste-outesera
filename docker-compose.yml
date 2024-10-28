@@ -11,7 +11,7 @@ services:
       - "${PORT}:${PORT}"
     environment:
       - NODE_ENV=${NODE_ENV}
-    command: nodemon src/index.ts
+    command: node dist/index.js
 
   db:
     container_name: db-outsera
