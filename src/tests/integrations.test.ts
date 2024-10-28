@@ -18,8 +18,7 @@ describe('API Integration Testing', () => {
       json: jest.fn(),
     } as unknown as Response;
 
-    const next = jest.fn();
-    await getProducersWithMinMaxInterval(req, res, next);
+    await getProducersWithMinMaxInterval(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(mockProducers);
@@ -36,8 +35,7 @@ describe('API Integration Testing', () => {
       json: jest.fn(),
     } as unknown as Response;
 
-    const next = jest.fn();
-    await getProducersWithMinMaxInterval(req, res, next);
+    await getProducersWithMinMaxInterval(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });

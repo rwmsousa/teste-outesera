@@ -31,8 +31,8 @@ AppDataSource.initialize()
     const movies: Movie[] = await readCsvData(csvFilePath);
     await populateDatabase(movies);
 
-    app.get('/producers', (req: Request, res: Response, next: NextFunction) =>
-      getProducersWithMinMaxInterval(req, res, next),
+    app.get('/producers', (req: Request, res: Response) =>
+      getProducersWithMinMaxInterval(req, res),
     );
 
     app.listen(port, () => {

@@ -1,4 +1,5 @@
 import { getProducers } from '../repositories/producer.repository';
+import { ProducerInterval } from '../types';
 
 interface ProducerIntervalResult {
   producer: string;
@@ -18,22 +19,15 @@ export const getMinMaxIntervalProducers = async (): Promise<{
 
     for (const producerData of producers) {
       const { producer, years } = producerData;
-      const uniqueYears = Array.from(new Set<number>(years)).sort(
-        (a, b) => a - b,
-      );
-      for (let i = 1; i < uniqueYears.length; i++) {
-        const interval = uniqueYears[i] - uniqueYears[i - 1];
+      for (let i = 1; i < years.length; i++) {
+        const interval = years[i] - years[i - 1];
         producerIntervals.push({
           producer,
           interval,
-          previousWin: uniqueYears[i - 1],
-          followingWin: uniqueYears[i],
+          previousWin: years[i - 1],
+          followingWin: years[i],
         });
       }
-    }
-
-    if (producerIntervals.length === 0) {
-      return { min: [], max: [] };
     }
 
     const sortedProducers = producerIntervals.sort(
